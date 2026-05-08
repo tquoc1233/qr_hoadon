@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hóa Đơn Lotte Mart</title>
+    <title>Hóa Đơn Co.opMart</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         * {
@@ -26,7 +26,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
-            max-width: 1000px;
+            max-width: 1200px;
             width: 100%;
         }
 
@@ -35,7 +35,7 @@
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            max-height: 800px;
+            max-height: 900px;
             overflow-y: auto;
         }
 
@@ -51,8 +51,8 @@
         }
 
         .invoice {
-            font-size: 12px;
-            line-height: 1.6;
+            font-size: 11px;
+            line-height: 1.5;
             color: #333;
         }
 
@@ -63,126 +63,171 @@
             padding-bottom: 15px;
         }
 
-        .store-name {
-            font-size: 16px;
+        .store-logo {
+            font-size: 18px;
             font-weight: bold;
             margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        .store-name {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
 
         .store-info {
-            font-size: 11px;
-            line-height: 1.4;
+            font-size: 10px;
+            line-height: 1.5;
         }
 
         .separator {
             border-top: 1px dashed #999;
-            margin: 10px 0;
+            margin: 8px 0;
         }
 
-        .receipt-header {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+        .section-title {
+            font-weight: bold;
             font-size: 11px;
+            margin: 8px 0 5px 0;
+            text-transform: uppercase;
+        }
+
+        .invoice-detail {
+            font-size: 10px;
+            line-height: 1.4;
             margin-bottom: 10px;
         }
 
-        .receipt-header div {
+        .detail-row {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            padding: 2px 0;
         }
 
-        .receipt-header strong {
-            color: #000;
+        .detail-row-full {
+            padding: 2px 0;
         }
 
-        .items-header {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 5px;
-            font-weight: bold;
-            border-bottom: 1px solid #999;
-            padding: 8px 0;
-            font-size: 11px;
-            margin-bottom: 5px;
-        }
-
-        .items-header span {
-            text-align: right;
-        }
-
-        .items-header span:first-child {
-            text-align: left;
-        }
-
-        .item {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 5px;
-            padding: 4px 0;
-            font-size: 11px;
-            border-bottom: 1px dotted #ddd;
-        }
-
-        .item-name {
-            text-align: left;
-            word-break: break-word;
-        }
-
-        .item-qty,
-        .item-price,
-        .item-total {
-            text-align: right;
-        }
-
-        .item-code {
-            font-size: 10px;
-            color: #666;
-            padding-left: 10px;
-            margin-bottom: 2px;
-        }
-
-        .totals {
-            margin-top: 15px;
-            border-top: 1px solid #999;
-            padding-top: 10px;
-        }
-
-        .total-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 10px;
-            padding: 4px 0;
-            font-size: 11px;
-        }
-
-        .total-row .label {
-            text-align: left;
-        }
-
-        .total-row .value {
-            text-align: right;
-            font-weight: bold;
-        }
-
-        .grand-total {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 10px;
-            padding: 8px 0;
-            font-size: 13px;
-            font-weight: bold;
-            border-top: 2px solid #000;
-            border-bottom: 2px solid #000;
+        .items {
             margin: 10px 0;
         }
 
-        .grand-total .label {
-            text-align: left;
+        .item {
+            padding: 3px 0;
+            border-bottom: 1px dotted #ddd;
+            font-size: 10px;
+            line-height: 1.3;
         }
 
-        .grand-total .value {
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            padding: 5px 0;
+            border-bottom: 1px solid #999;
+        }
+
+        .item-name {
+            flex: 1;
+        }
+
+        .item-price {
+            width: 80px;
             text-align: right;
+        }
+
+        .item-total {
+            width: 80px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .item-code {
+            color: #666;
+            font-size: 9px;
+            padding-left: 10px;
+        }
+
+        .item-vat {
+            color: #999;
+            font-size: 9px;
+            padding-left: 10px;
+        }
+
+        .item-discount {
+            color: #d9534f;
+            font-size: 9px;
+            padding-left: 10px;
+        }
+
+        .totals {
+            margin: 15px 0;
+            border-top: 1px solid #999;
+            border-bottom: 2px solid #000;
+            padding: 10px 0;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+            font-size: 11px;
+        }
+
+        .total-row-label {
+            flex: 1;
+        }
+
+        .total-row-value {
+            width: 150px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .summary {
+            font-size: 10px;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+        }
+
+        .payment-method {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        .customer-info {
+            background: #f9f9f9;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        .barcode {
+            text-align: center;
+            font-size: 8px;
+            margin: 10px 0;
+            letter-spacing: 1px;
+            word-break: break-all;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 10px;
+            color: #666;
         }
 
         .qr-code-container {
@@ -227,22 +272,6 @@
             .invoice-section {
                 max-height: none;
             }
-
-            .items-header,
-            .item {
-                grid-template-columns: 1fr;
-            }
-
-            .items-header span,
-            .item-qty,
-            .item-price,
-            .item-total {
-                text-align: left;
-            }
-
-            .item-code {
-                padding-left: 0;
-            }
         }
 
         ::-webkit-scrollbar {
@@ -269,230 +298,217 @@
         <!-- Invoice Section -->
         <div class="invoice-section">
             <div class="invoice">
+                <!-- Header -->
                 <div class="header">
-                    <div class="store-name">LOTTE Mart</div>
+                    <div class="store-logo">CO.OP</div>
+                    <div class="store-name">co.opmart</div>
                     <div class="store-info">
-                        <div>CTY CỔ PHẦN TTTM LOTTE VIỆT NAM</div>
-                        <div>LOTTE Mart NAM SAI GÒN</div>
-                        <div>469 NGUYỄN HUỮ THO, P. TÂN HƯNG, Q7, TP. HCM</div>
-                        <div>ĐT: (028)3775 4168 - Hotline:0914430969</div>
-                        <div>MST: 0304 741 634</div>
+                        <div>Co.opMart TÂY NINH</div>
+                        <div>576 CHMI3, Ma so thue: 3900895373</div>
+                        <div>576 CHMI3, Phuong 3, Thanh Pho Tay Ninh</div>
+                        <div>Dat hang qua DT: 0276.3922339,</div>
+                        <div>Email: tnmarketingCcoopmart.vn</div>
+                        <div>Dien thoai giao hang: 0917822339</div>
+                        <div>Hotline: 1900555588</div>
+                        <div>Email: chamsockhachhang@coopmart.vn</div>
+                        <div>Website: www.co-opmart.com.vn</div>
                     </div>
                 </div>
 
-                <div class="receipt-header">
-                    <div>
-                        <strong>CASHIER:</strong>
-                        <span>2070233391Tran Khanh Tr</span>
+                <!-- Phieu Tinh Tien -->
+                <div class="section-title">PHIẾU TÍNH TIỀN</div>
+                <div class="invoice-detail">
+                    <div class="detail-row">
+                        <span>Cơ quan tri xuất Hóa đơn GTGT trong ngày</span>
                     </div>
-                    <div>
-                        <strong>MANAGER:</strong>
-                        <span>Mr.Toan</span>
+                    <div class="detail-row">
+                        <span>Quay: 04</span>
+                        <span>Ngày: 3/04/2021 20:27:07</span>
                     </div>
-                    <div>
-                        <strong>[ENT]:</strong>
-                        <span>2020-12-20 19:03</span>
-                    </div>
-                    <div>
-                        <strong>POS:</strong>
-                        <span>0023-0105</span>
+                    <div class="detail-row">
+                        <span>Nhân viên: THU NGÂN</span>
+                        <span>Số HĐ: 04508</span>
                     </div>
                 </div>
 
                 <div class="separator"></div>
 
-                <div class="items-header">
-                    <span>Mã sản phẩm</span>
-                    <span>Số lượng</span>
-                    <span>Đơn giá</span>
-                    <span>Thành tiền</span>
-                </div>
+                <!-- Items -->
+                <div class="items">
+                    <!-- Item 1 -->
+                    <div class="item">
+                        <div><strong>08934866149002 BÒ OMO CF Tdt N,nan vang5</strong></div>
+                        <div class="detail-row">
+                            <span>VAT10%</span>
+                            <span>1</span>
+                            <span style="text-align: right;">192,900.00</span>
+                            <span style="text-align: right; width: 80px; font-weight: bold;">192,900.00</span>
+                        </div>
+                        <div class="item-vat">Gia goc: 238,000.00</div>
+                    </div>
 
-                <div class="item">
-                    <div class="item-name">001 CL-NAC HEO XAY (SỐ)</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">55,568</div>
-                    <div class="item-total">55,568</div>
-                </div>
-                <div class="item-code">224176000002 - SCode: 2247765005568003681</div>
+                    <!-- Item 2 -->
+                    <div class="item">
+                        <div><strong>08934868151487 NX COMFORT DDnmh-thuoimat</strong></div>
+                        <div class="detail-row">
+                            <span>VAT10%</span>
+                            <span>1</span>
+                            <span style="text-align: right;">129,900.00</span>
+                            <span style="text-align: right; width: 80px; font-weight: bold;">129,900.00</span>
+                        </div>
+                        <div class="item-vat">Gia goc: 179,000.00</div>
+                    </div>
 
-                <div class="item">
-                    <div class="item-name">002 CL-KHOA1 LANG GIONG NHAT 1KG</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">34,500</div>
-                    <div class="item-total">34,500</div>
-                </div>
-                <div class="item-code">0400217450009 - SCode:</div>
+                    <!-- Item 3 -->
+                    <div class="item">
+                        <div><strong>08934889124939 KDR CloseUp Quat&ThaoQuoc</strong></div>
+                        <div class="detail-row">
+                            <span>VAT10%</span>
+                            <span>1</span>
+                            <span style="text-align: right;">36,900.00</span>
+                            <span style="text-align: right; width: 80px; font-weight: bold;">36,900.00</span>
+                        </div>
+                        <div class="item-vat">Gia goc: 46,000.00</div>
+                    </div>
 
-                <div class="item">
-                    <div class="item-name">003 BT DO BABY</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">500,244</div>
-                    <div class="item-total">500,244</div>
-                </div>
-                <div class="item-code">2086540000005 - SCode: 2086543050024400529</div>
+                    <!-- Item 4 -->
+                    <div class="item">
+                        <div><strong>08934889125097 KDR P/S 123 240g</strong></div>
+                        <div class="detail-row">
+                            <span>VAT10%</span>
+                            <span>1</span>
+                            <span style="text-align: right;">25,900.00</span>
+                            <span style="text-align: right; width: 80px; font-weight: bold;">25,900.00</span>
+                        </div>
+                        <div class="item-vat">Gia goc: 35,000.00</div>
+                        <div class="item-discount">Gia da giam theo Gia Uu Dai Thanh Vien</div>
+                    </div>
 
-                <div class="item">
-                    <div class="item-name">004 FA-TAU ENVV MY 3-4 1RAI/KG</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">130,146</div>
-                    <div class="item-total">130,146</div>
-                </div>
-                <div class="item-code">2266350000000 - SCode: 2266353013014600549</div>
+                    <!-- Item 5 -->
+                    <div class="item">
+                        <div><strong>08934889125097 KDR P/S 123 240g</strong></div>
+                        <div class="detail-row">
+                            <span>VAT10%</span>
+                            <span>1</span>
+                            <span style="text-align: right;">25,900.00</span>
+                            <span style="text-align: right; width: 80px; font-weight: bold;">25,900.00</span>
+                        </div>
+                        <div class="item-vat">Gia goc: 35,000.00</div>
+                        <div class="item-discount">Gia da giam theo Gia Uu Dai Thanh Vien</div>
+                    </div>
 
-                <div class="item">
-                    <div class="item-name">005 HÀNH TÍM PHAN RANG 300G</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">21,000</div>
-                    <div class="item-total">21,000</div>
-                </div>
-                <div class="item-code">0400251760003</div>
+                    <!-- Item 6 -->
+                    <div class="item">
+                        <div><strong>08936065072251 ST Olive d.am sang da 650</strong></div>
+                        <div class="detail-row">
+                            <span>VAT10%</span>
+                            <span>1</span>
+                            <span style="text-align: right;">143,000.00</span>
+                            <span style="text-align: right; width: 80px; font-weight: bold;">143,000.00</span>
+                        </div>
+                        <div class="item-vat">Gia goc: 165,000.00</div>
+                    </div>
 
-                <div class="item">
-                    <div class="item-name">006 RONG CAI XANH DL</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">32,982</div>
-                    <div class="item-total">32,982</div>
+                    <!-- Item 7 -->
+                    <div class="item">
+                        <div><strong>08934868111863 ST Lifebuyob.v.v.troi10tu</strong></div>
+                        <div class="detail-row">
+                            <span>VAT10%</span>
+                            <span>1</span>
+                            <span style="text-align: right;">89,000.00</span>
+                            <span style="text-align: right; width: 80px; font-weight: bold;">89,000.00</span>
+                        </div>
+                        <div class="item-vat">Gia goc: 122,500.00</div>
+                    </div>
                 </div>
-                <div class="item-code">2039610000009 - SCode: 2039618003299200478</div>
-
-                <div class="item">
-                    <div class="item-name">007 SN-KIWI RUOT XAN NZL</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">35,868</div>
-                    <div class="item-total">35,868</div>
-                </div>
-                <div class="item-code">2186000000009 - SCode: 2186002003586803652</div>
-
-                <div class="item">
-                    <div class="item-name">008 FA-CA ROT DL</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">16,224</div>
-                    <div class="item-total">16,224</div>
-                </div>
-                <div class="item-code">2040661001622400163</div>
-
-                <div class="item">
-                    <div class="item-name">009 BAP SIEU NGOT GIONG MY(LD 2)</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">17,900</div>
-                    <div class="item-total">17,900</div>
-                </div>
-                <div class="item-code">0400084010009</div>
-
-                <div class="item">
-                    <div class="item-name">010 HAT SEN TUOI 200G</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">65,900</div>
-                    <div class="item-total">65,900</div>
-                </div>
-                <div class="item-code">8933050512013</div>
-
-                <div class="item">
-                    <div class="item-name">011 RAU THOM HON HOP 150G</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">22,000</div>
-                    <div class="item-total">22,000</div>
-                </div>
-                <div class="item-code">0400223980006</div>
-
-                <div class="item">
-                    <div class="item-name">012 CL-DT HIEM DL 50G</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">8,500</div>
-                    <div class="item-total">8,500</div>
-                </div>
-                <div class="item-code">893611703009</div>
-
-                <div class="item">
-                    <div class="item-name">013 CL-XA LACH OAKLEAF XANH TCPT</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">16,500</div>
-                    <div class="item-total">16,500</div>
-                </div>
-                <div class="item-code">0400212790001</div>
-
-                <div class="item">
-                    <div class="item-name">014 HANH LA 100G</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">10,500</div>
-                    <div class="item-total">10,500</div>
-                </div>
-                <div class="item-code">0400229580008</div>
-
-                <div class="item">
-                    <div class="item-name">015 SUA TH MILK HATSAC 180ML x4</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">53,500</div>
-                    <div class="item-total">53,500</div>
-                </div>
-                <div class="item-code">8935217464449</div>
-
-                <div class="item">
-                    <div class="item-name">016 SUA ENSURE VANI 237ML</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">33,900</div>
-                    <div class="item-total">33,900</div>
-                </div>
-                <div class="item-code">00700741186599</div>
-
-                <div class="item">
-                    <div class="item-name">017 SUA ENSURE GOLD VIGOR 237ML</div>
-                    <div class="item-qty">3</div>
-                    <div class="item-price">45,000</div>
-                    <div class="item-total">135,000</div>
-                </div>
-                <div class="item-code">00700741159</div>
-
-                <div class="item">
-                    <div class="item-name">018 XXTT RED CP 40sx5</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">18,200</div>
-                    <div class="item-total">18,200</div>
-                </div>
-                <div class="item-code">893605891168</div>
-
-                <div class="item">
-                    <div class="item-name">019 L.X TUOI VI TIEU ELTN 300G</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">110,000</div>
-                    <div class="item-total">110,000</div>
-                </div>
-                <div class="item-code">8936067100891</div>
 
                 <div class="separator"></div>
 
+                <!-- Totals -->
                 <div class="totals">
                     <div class="total-row">
-                        <div class="label">05 % VAT</div>
-                        <div class="value">46,088</div>
+                        <span class="total-row-label">Tong so tien thanh toan:</span>
+                        <span class="total-row-value">643,500.00</span>
                     </div>
                     <div class="total-row">
-                        <div class="label">10 % VAT</div>
-                        <div class="value">31,874</div>
+                        <span class="total-row-label">Tong so luong hang:</span>
+                        <span class="total-row-value">7</span>
                     </div>
-                    <div class="total-row">
-                        <div class="label">Tổng cộng</div>
-                        <div class="value">1,318,432</div>
-                    </div>
-                    <div class="total-row">
-                        <div class="label">Giảm giá đơn số</div>
-                        <div class="value">-32</div>
-                    </div>
+                </div>
 
-                    <div class="grand-total">
-                        <div class="label">Tiền nhân</div>
-                        <div class="value">1,318,400</div>
+                <!-- Payment Method -->
+                <div class="section-title">Phương thức thanh toán:</div>
+                <div class="payment-method">
+                    <div>Thẻ Ngân Hàng: 643,500.00</div>
+                    <div style="margin-top: 8px;">
+                        <div>Số thẻ: xxx</div>
+                        <div>So may quét the: 02</div>
                     </div>
+                </div>
 
-                    <div style="text-align: center; font-size: 11px; margin-top: 10px; letter-spacing: 1px;">
-                        ############################################
+                <!-- Tax Info -->
+                <div class="summary">
+                    <div class="summary-row">
+                        <span>Bao gom thue GTGT 10%:</span>
+                        <span style="font-weight: bold;">58,500.01</span>
                     </div>
+                </div>
 
-                    <div style="text-align: center; margin-top: 15px;">
-                        <div style="font-size: 11px; margin-bottom: 5px;"><strong>QR VNPAY</strong></div>
-                        <div style="font-size: 10px;">Số hóa đơn: 20122001002301053</div>
+                <!-- Customer Info -->
+                <div class="section-title">THÔNG TIN KHÁCH HÀNG THÂN THIẾT:</div>
+                <div class="customer-info">
+                    <div class="summary-row">
+                        <span>Mã so :</span>
+                        <span>166239830</span>
                     </div>
+                    <div class="summary-row">
+                        <span>Hộ tên:</span>
+                        <span>*</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Điểm dau ngay:</span>
+                        <span>423</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Điểm sử dụng trong hóa đơn:</span>
+                        <span></span>
+                    </div>
+                    <div style="margin-top: 8px; border-top: 1px dotted #ddd; padding-top: 8px;">
+                        <div class="summary-row">
+                            <span>Tem :</span>
+                            <span style="font-weight: bold;">3</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tem thuong :</span>
+                            <span>0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Nhan doi Tem:</span>
+                            <span>0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tong so Tem :</span>
+                            <span>3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="separator"></div>
+
+                <!-- Footer -->
+                <div class="footer">
+                    <div style="margin-bottom: 10px;">Cam on Quy khach</div>
+                    <div>Hen gap lai</div>
+                </div>
+
+                <!-- Barcode -->
+                <div class="barcode">
+                    | | ||| | || | | | | | ||| | || || | | || || | | | | ||
+                </div>
+
+                <!-- Ma HD -->
+                <div style="text-align: center; font-size: 9px; margin-top: 10px;">
+                    Ma HD: EPAGAEGRKAAQU 20:28 27967 27967
                 </div>
             </div>
         </div>
@@ -501,26 +517,24 @@
     <script>
         // Invoice data
         const invoiceData = {
-            store: "LOTTE Mart NAM SAI GÒN",
-            date: "2020-12-20 19:03",
-            cashier: "Tran Khanh Tr",
-            total: "1,318,400",
-            items: 19,
-            qrVNPay: "20122001002301053"
+            store: "Co.opMart TÂY NINH",
+            date: "3/04/2021 20:27:07",
+            cashier: "THU NGÂN",
+            total: "643,500.00",
+            items: 7,
+            customerId: "166239830",
+            invoiceId: "04508"
         };
 
         // Generate QR Code
         function generateQR() {
-            // Create a URL with invoice data
             const baseUrl = window.location.origin + window.location.pathname;
             const invoiceJson = JSON.stringify(invoiceData);
-            const encodedData = btoa(invoiceJson); // Base64 encode
+            const encodedData = btoa(invoiceJson);
             const qrUrl = baseUrl + "?invoice=" + encodedData;
 
-            // Clear previous QR code
             document.getElementById('qrcode').innerHTML = '';
 
-            // Generate new QR code
             new QRCode(document.getElementById('qrcode'), {
                 text: qrUrl,
                 width: 256,
@@ -531,31 +545,19 @@
             });
         }
 
-        // Download QR Code as image
+        // Download QR Code
         function downloadQR() {
             const canvas = document.querySelector('#qrcode canvas');
             if (canvas) {
                 const link = document.createElement('a');
                 link.href = canvas.toDataURL('image/png');
-                link.download = `qr-hoadon-${invoiceData.qrVNPay}.png`;
+                link.download = `qr-coomart-${invoiceData.invoiceId}.png`;
                 link.click();
             }
         }
 
-        // Initialize QR code on page load
+        // Initialize
         window.addEventListener('load', generateQR);
-
-        // Parse URL parameter to display invoice data if it exists
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('invoice')) {
-            try {
-                const decoded = atob(urlParams.get('invoice'));
-                const data = JSON.parse(decoded);
-                console.log('Invoice Data:', data);
-            } catch (e) {
-                console.log('Invalid invoice data');
-            }
-        }
     </script>
 </body>
 </html>
