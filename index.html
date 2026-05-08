@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hóa Đơn Lotte Mart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .invoice-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-height: 800px;
+            overflow-y: auto;
+        }
+
+        .qr-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .invoice {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+        }
+
+        .store-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .store-info {
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .separator {
+            border-top: 1px dashed #999;
+            margin: 10px 0;
+        }
+
+        .receipt-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 11px;
+            margin-bottom: 10px;
+        }
+
+        .receipt-header div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .receipt-header strong {
+            color: #000;
+        }
+
+        .items-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 5px;
+            font-weight: bold;
+            border-bottom: 1px solid #999;
+            padding: 8px 0;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+
+        .items-header span {
+            text-align: right;
+        }
+
+        .items-header span:first-child {
+            text-align: left;
+        }
+
+        .item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 5px;
+            padding: 4px 0;
+            font-size: 11px;
+            border-bottom: 1px dotted #ddd;
+        }
+
+        .item-name {
+            text-align: left;
+            word-break: break-word;
+        }
+
+        .item-qty,
+        .item-price,
+        .item-total {
+            text-align: right;
+        }
+
+        .item-code {
+            font-size: 10px;
+            color: #666;
+            padding-left: 10px;
+            margin-bottom: 2px;
+        }
+
+        .totals {
+            margin-top: 15px;
+            border-top: 1px solid #999;
+            padding-top: 10px;
+        }
+
+        .total-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 10px;
+            padding: 4px 0;
+            font-size: 11px;
+        }
+
+        .total-row .label {
+            text-align: left;
+        }
+
+        .total-row .value {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .grand-total {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 13px;
+            font-weight: bold;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+            margin: 10px 0;
+        }
+
+        .grand-total .label {
+            text-align: left;
+        }
+
+        .grand-total .value {
+            text-align: right;
+        }
+
+        .qr-code-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #qrcode {
+            display: inline-block;
+            padding: 15px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+        }
+
+        .qr-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 15px;
+            transition: transform 0.2s;
+        }
+
+        .qr-button:hover {
+            transform: scale(1.05);
+        }
+
+        .qr-button:active {
+            transform: scale(0.98);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .invoice-section {
+                max-height: none;
+            }
+
+            .items-header,
+            .item {
+                grid-template-columns: 1fr;
+            }
+
+            .items-header span,
+            .item-qty,
+            .item-price,
+            .item-total {
+                text-align: left;
+            }
+
+            .item-code {
+                padding-left: 0;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Invoice Section -->
+        <div class="invoice-section">
+            <div class="invoice">
+                <div class="header">
+                    <div class="store-name">LOTTE Mart</div>
+                    <div class="store-info">
+                        <div>CTY CỔ PHẦN TTTM LOTTE VIỆT NAM</div>
+                        <div>LOTTE Mart NAM SAI GÒN</div>
+                        <div>469 NGUYỄN HUỮ THO, P. TÂN HƯNG, Q7, TP. HCM</div>
+                        <div>ĐT: (028)3775 4168 - Hotline:0914430969</div>
+                        <div>MST: 0304 741 634</div>
+                    </div>
+                </div>
+
+                <div class="receipt-header">
+                    <div>
+                        <strong>CASHIER:</strong>
+                        <span>2070233391Tran Khanh Tr</span>
+                    </div>
+                    <div>
+                        <strong>MANAGER:</strong>
+                        <span>Mr.Toan</span>
+                    </div>
+                    <div>
+                        <strong>[ENT]:</strong>
+                        <span>2020-12-20 19:03</span>
+                    </div>
+                    <div>
+                        <strong>POS:</strong>
+                        <span>0023-0105</span>
+                    </div>
+                </div>
+
+                <div class="separator"></div>
+
+                <div class="items-header">
+                    <span>Mã sản phẩm</span>
+                    <span>Số lượng</span>
+                    <span>Đơn giá</span>
+                    <span>Thành tiền</span>
+                </div>
+
+                <div class="item">
+                    <div class="item-name">001 CL-NAC HEO XAY (SỐ)</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">55,568</div>
+                    <div class="item-total">55,568</div>
+                </div>
+                <div class="item-code">224176000002 - SCode: 2247765005568003681</div>
+
+                <div class="item">
+                    <div class="item-name">002 CL-KHOA1 LANG GIONG NHAT 1KG</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">34,500</div>
+                    <div class="item-total">34,500</div>
+                </div>
+                <div class="item-code">0400217450009 - SCode:</div>
+
+                <div class="item">
+                    <div class="item-name">003 BT DO BABY</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">500,244</div>
+                    <div class="item-total">500,244</div>
+                </div>
+                <div class="item-code">2086540000005 - SCode: 2086543050024400529</div>
+
+                <div class="item">
+                    <div class="item-name">004 FA-TAU ENVV MY 3-4 1RAI/KG</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">130,146</div>
+                    <div class="item-total">130,146</div>
+                </div>
+                <div class="item-code">2266350000000 - SCode: 2266353013014600549</div>
+
+                <div class="item">
+                    <div class="item-name">005 HÀNH TÍM PHAN RANG 300G</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">21,000</div>
+                    <div class="item-total">21,000</div>
+                </div>
+                <div class="item-code">0400251760003</div>
+
+                <div class="item">
+                    <div class="item-name">006 RONG CAI XANH DL</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">32,982</div>
+                    <div class="item-total">32,982</div>
+                </div>
+                <div class="item-code">2039610000009 - SCode: 2039618003299200478</div>
+
+                <div class="item">
+                    <div class="item-name">007 SN-KIWI RUOT XAN NZL</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">35,868</div>
+                    <div class="item-total">35,868</div>
+                </div>
+                <div class="item-code">2186000000009 - SCode: 2186002003586803652</div>
+
+                <div class="item">
+                    <div class="item-name">008 FA-CA ROT DL</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">16,224</div>
+                    <div class="item-total">16,224</div>
+                </div>
+                <div class="item-code">2040661001622400163</div>
+
+                <div class="item">
+                    <div class="item-name">009 BAP SIEU NGOT GIONG MY(LD 2)</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">17,900</div>
+                    <div class="item-total">17,900</div>
+                </div>
+                <div class="item-code">0400084010009</div>
+
+                <div class="item">
+                    <div class="item-name">010 HAT SEN TUOI 200G</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">65,900</div>
+                    <div class="item-total">65,900</div>
+                </div>
+                <div class="item-code">8933050512013</div>
+
+                <div class="item">
+                    <div class="item-name">011 RAU THOM HON HOP 150G</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">22,000</div>
+                    <div class="item-total">22,000</div>
+                </div>
+                <div class="item-code">0400223980006</div>
+
+                <div class="item">
+                    <div class="item-name">012 CL-DT HIEM DL 50G</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">8,500</div>
+                    <div class="item-total">8,500</div>
+                </div>
+                <div class="item-code">893611703009</div>
+
+                <div class="item">
+                    <div class="item-name">013 CL-XA LACH OAKLEAF XANH TCPT</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">16,500</div>
+                    <div class="item-total">16,500</div>
+                </div>
+                <div class="item-code">0400212790001</div>
+
+                <div class="item">
+                    <div class="item-name">014 HANH LA 100G</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">10,500</div>
+                    <div class="item-total">10,500</div>
+                </div>
+                <div class="item-code">0400229580008</div>
+
+                <div class="item">
+                    <div class="item-name">015 SUA TH MILK HATSAC 180ML x4</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">53,500</div>
+                    <div class="item-total">53,500</div>
+                </div>
+                <div class="item-code">8935217464449</div>
+
+                <div class="item">
+                    <div class="item-name">016 SUA ENSURE VANI 237ML</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">33,900</div>
+                    <div class="item-total">33,900</div>
+                </div>
+                <div class="item-code">00700741186599</div>
+
+                <div class="item">
+                    <div class="item-name">017 SUA ENSURE GOLD VIGOR 237ML</div>
+                    <div class="item-qty">3</div>
+                    <div class="item-price">45,000</div>
+                    <div class="item-total">135,000</div>
+                </div>
+                <div class="item-code">00700741159</div>
+
+                <div class="item">
+                    <div class="item-name">018 XXTT RED CP 40sx5</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">18,200</div>
+                    <div class="item-total">18,200</div>
+                </div>
+                <div class="item-code">893605891168</div>
+
+                <div class="item">
+                    <div class="item-name">019 L.X TUOI VI TIEU ELTN 300G</div>
+                    <div class="item-qty">1</div>
+                    <div class="item-price">110,000</div>
+                    <div class="item-total">110,000</div>
+                </div>
+                <div class="item-code">8936067100891</div>
+
+                <div class="separator"></div>
+
+                <div class="totals">
+                    <div class="total-row">
+                        <div class="label">05 % VAT</div>
+                        <div class="value">46,088</div>
+                    </div>
+                    <div class="total-row">
+                        <div class="label">10 % VAT</div>
+                        <div class="value">31,874</div>
+                    </div>
+                    <div class="total-row">
+                        <div class="label">Tổng cộng</div>
+                        <div class="value">1,318,432</div>
+                    </div>
+                    <div class="total-row">
+                        <div class="label">Giảm giá đơn số</div>
+                        <div class="value">-32</div>
+                    </div>
+
+                    <div class="grand-total">
+                        <div class="label">Tiền nhân</div>
+                        <div class="value">1,318,400</div>
+                    </div>
+
+                    <div style="text-align: center; font-size: 11px; margin-top: 10px; letter-spacing: 1px;">
+                        ############################################
+                    </div>
+
+                    <div style="text-align: center; margin-top: 15px;">
+                        <div style="font-size: 11px; margin-bottom: 5px;"><strong>QR VNPAY</strong></div>
+                        <div style="font-size: 10px;">Số hóa đơn: 20122001002301053</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR Code Section -->
+        <div class="qr-section">
+            <h2 style="color: #667eea; margin-bottom: 20px;">Mã QR Hóa Đơn</h2>
+            <div class="qr-code-container">
+                <div id="qrcode"></div>
+            </div>
+            <button class="qr-button" onclick="downloadQR()">📥 Tải xuống QR Code</button>
+            <p style="margin-top: 20px; text-align: center; color: #666; font-size: 12px;">
+                Quét mã QR để xem chi tiết hóa đơn
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Invoice data
+        const invoiceData = {
+            store: "LOTTE Mart NAM SAI GÒN",
+            date: "2020-12-20 19:03",
+            cashier: "Tran Khanh Tr",
+            total: "1,318,400",
+            items: 19,
+            qrVNPay: "20122001002301053"
+        };
+
+        // Generate QR Code
+        function generateQR() {
+            // Create a URL with invoice data
+            const baseUrl = window.location.origin + window.location.pathname;
+            const invoiceJson = JSON.stringify(invoiceData);
+            const encodedData = btoa(invoiceJson); // Base64 encode
+            const qrUrl = baseUrl + "?invoice=" + encodedData;
+
+            // Clear previous QR code
+            document.getElementById('qrcode').innerHTML = '';
+
+            // Generate new QR code
+            new QRCode(document.getElementById('qrcode'), {
+                text: qrUrl,
+                width: 256,
+                height: 256,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        // Download QR Code as image
+        function downloadQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            if (canvas) {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL('image/png');
+                link.download = `qr-hoadon-${invoiceData.qrVNPay}.png`;
+                link.click();
+            }
+        }
+
+        // Initialize QR code on page load
+        window.addEventListener('load', generateQR);
+
+        // Parse URL parameter to display invoice data if it exists
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('invoice')) {
+            try {
+                const decoded = atob(urlParams.get('invoice'));
+                const data = JSON.parse(decoded);
+                console.log('Invoice Data:', data);
+            } catch (e) {
+                console.log('Invalid invoice data');
+            }
+        }
+    </script>
+</body>
+</html>
