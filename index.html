@@ -43,7 +43,7 @@ body{
     width:260px;
     height:auto;
     display:block;
-    margin:auto auto;
+    margin:auto auto 8px;
 }
 
 /* COMMON */
@@ -162,7 +162,93 @@ body{
     text-align:center;
     font-size:13px;
 }
+/* =========================
+   RESPONSIVE
+========================= */
 
+*{
+    box-sizing:border-box;
+}
+
+img{
+    max-width:100%;
+}
+
+.receipt{
+    width:100%;
+    max-width:360px;
+}
+
+.logo-img{
+    width:100%;
+    max-width:260px;
+}
+
+.barcode{
+    width:100%;
+    max-width:260px;
+}
+
+/* tránh text bị tràn */
+
+.row span,
+.item-name,
+.qr-text,
+.small{
+    word-break:break-word;
+}
+
+/* mobile */
+
+@media (max-width:480px){
+
+    body{
+        padding:12px;
+    }
+
+    .receipt{
+        padding:16px 14px 24px;
+    }
+
+    .row{
+        gap:10px;
+        font-size:13px;
+    }
+
+    .title{
+        font-size:16px;
+        letter-spacing:2px;
+    }
+
+    .barcode-number{
+        font-size:14px;
+        letter-spacing:1px;
+    }
+
+    .qr-area{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .qr-text{
+        width:100%;
+        font-size:12px;
+    }
+
+    .confirm-box{
+        width:120px;
+        margin:auto;
+        margin-top:10px;
+    }
+
+    .confirm-code{
+        font-size:26px;
+    }
+
+    #qrcode{
+        margin:auto;
+    }
+}
 </style>
 </head>
 
@@ -176,7 +262,7 @@ body{
      <div class="logo-wrap">
         <img
             class="logo-img"
-            src="./c71d84f8-78bd-431b-8da1-4cf07c3ddf06-removebg-preview.png"
+            src="https://uploads.onecompiler.io/44p9jsc55/44pb49dng/c71d84f8-78bd-431b-8da1-4cf07c3ddf06-removebg-preview.png"
             alt="Co.opmart Logo"
         >
 
